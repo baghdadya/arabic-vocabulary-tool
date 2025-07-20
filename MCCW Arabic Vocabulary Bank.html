@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCCW Arabic Vocabulary Bank</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&family=Inter:wght@400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #f39c12, #e74c3c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .level-selector {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .level-btn {
+            padding: 12px 24px;
+            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+        
+        .level-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-2px);
+        }
+        
+        .level-btn.active {
+            background: linear-gradient(45deg, #f39c12, #e74c3c);
+            border-color: transparent;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .controls {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .search-container {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 50px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .category-filter {
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 50px;
+            font-size: 16px;
+            background: white;
+            min-width: 200px;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .level-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .level-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .level-description {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .category-section {
+            margin-bottom: 40px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .category-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 20px 30px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .category-icon {
+            font-size: 1.5rem;
+        }
+        
+        .vocabulary-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .vocabulary-table th {
+            background: #e9ecef;
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        .vocabulary-table td {
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .vocabulary-table tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .arabic-word {
+            font-family: 'Amiri', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            direction: rtl;
+            text-align: center;
+            color: #2c3e50;
+            padding-right: 20px;
+            line-height: 2.5;
+            font-feature-settings: "kern" 1, "liga" 1, "mark" 1, "mkmk" 1;
+            text-rendering: optimizeLegibility;
+            font-variant-ligatures: contextual;
+        }
+        
+        .vocabulary-table .arabic-word .tashkeel,
+        .arabic-word span.tashkeel,
+        span.tashkeel {
+            color: #e74c3c !important;
+            font-weight: normal !important;
+            animation: redFlash 0.1s ease-in;
+        }
+        
+        @keyframes redFlash {
+            0% { color: #e74c3c; }
+            100% { color: #e74c3c; }
+        }
+        
+        /* Additional fallback for tashkeel */
+        .tashkeel {
+            color: #e74c3c !important;
+        }
+        
+        .english-word {
+            font-size: 1.1rem;
+            color: #495057;
+            font-weight: 500;
+        }
+        
+        .word-number {
+            color: #6c757d;
+            font-weight: 600;
+            width: 60px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 60px;
+            color: #6c757d;
+            font-size: 1.2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .controls {
+                padding: 20px;
+            }
+            
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .search-box, .category-filter {
+                width: 100%;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .vocabulary-table th,
+            .vocabulary-table td {
+                padding: 15px 10px;
+            }
+            
+            .arabic-word {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MCCW Arabic Vocabulary Bank</h1>
+            <p>Master 2000 Essential Arabic Nouns Across 4 Progressive Levels</p>
+            <div class="level-selector">
+                <button class="level-btn active" data-level="1">Level 1 - Beginner</button>
+                <button class="level-btn" data-level="2">Level 2 - Elementary</button>
+                <button class="level-btn" data-level="3">Level 3 - Intermediate</button>
+                <button class="level-btn" data-level="4">Level 4 - Advanced</button>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="Search Arabic or English words..." id="searchInput">
+                <select class="category-filter" id="categoryFilter">
+                    <option value="">All Categories</option>
+                </select>
+            </div>
+            <div class="stats">
+                <div class="stat-card">
+                    <span class="stat-number" id="totalWords">500</span>
+                    <div class="stat-label">Total Words</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="visibleWords">500</span>
+                    <div class="stat-label">Showing</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="categoryCount">8</span>
+                    <div class="stat-label">Categories</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="level-info" id="levelInfo">
+                <div class="level-title">Level 1 - Beginner (500 words)</div>
+                <div class="level-description">Essential everyday vocabulary for basic communication and daily life situations</div>
+            </div>
+            
+            <div id="vocabularyContent">
+                <!-- Vocabulary sections will be inserted here -->
+            </div>
+            
+            <div class="no-results hidden" id="noResults">
+                <p>No words found matching your search criteria.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Complete vocabulary data for all levels
+        const vocabularyData = {
+            1: {
+                title: "Level 1 - Beginner (500 words)",
+                description: "Essential everyday vocabulary for basic communication and daily life situations",
+                categories: {
+                    "Family & People": {
+                        icon: "👨‍👩‍👧‍👦",
+                        words: [
+                            { arabic: "أَبٌ", english: "father" },
+                            { arabic: "أُمٌّ", english: "mother" },
+                            { arabic: "ابْنٌ", english: "son" },
+                            { arabic: "ابْنَةٌ", english: "daughter" },
+                            { arabic: "أَخٌ", english: "brother" },
+                            { arabic: "أُخْتٌ", english: "sister" },
+                            { arabic: "جَدٌّ", english: "grandfather" },
+                            { arabic: "جَدَّةٌ", english: "grandmother" },
+                            { arabic: "عَمٌّ", english: "uncle (father's side)" },
+                            { arabic: "عَمَّةٌ", english: "aunt (father's side)" },
+                            { arabic: "خَالٌ", english: "uncle (mother's side)" },
+                            { arabic: "خَالَةٌ", english: "aunt (mother's side)" },
+                            { arabic: "زَوْجٌ", english: "husband" },
+                            { arabic: "زَوْجَةٌ", english: "wife" },
+                            { arabic: "طِفْلٌ", english: "child" },
+                            { arabic: "رَجُلٌ", english: "man" },
+                            { arabic: "امْرَأَةٌ", english: "woman" },
+                            { arabic: "صَدِيقٌ", english: "friend (male)" },
+                            { arabic: "صَدِيقَةٌ", english: "friend (female)" },
+                            { arabic: "جَارٌ", english: "neighbor (male)" },
+                            { arabic: "جَارَةٌ", english: "neighbor (female)" },
+                            { arabic: "ضَيْفٌ", english: "guest" },
+                            { arabic: "عَائِلَةٌ", english: "family" },
+                            { arabic: "نَاسٌ", english: "people" },
+                            { arabic: "شَخْصٌ", english: "person" }
+                        ]
+                    },
+                    "Body Parts": {
+                        icon: "👤",
+                        words: [
+                            { arabic: "رَأْسٌ", english: "head" },
+                            { arabic: "وَجْهٌ", english: "face" },
+                            { arabic: "عَيْنٌ", english: "eye" },
+                            { arabic: "أُذُنٌ", english: "ear" },
+                            { arabic: "أَنْفٌ", english: "nose" },
+                            { arabic: "فَمٌ", english: "mouth" },
+                            { arabic: "أَسْنَانٌ", english: "teeth" },
+                            { arabic: "لِسَانٌ", english: "tongue" },
+                            { arabic: "شَعْرٌ", english: "hair" },
+                            { arabic: "رَقَبَةٌ", english: "neck" },
+                            { arabic: "كَتِفٌ", english: "shoulder" },
+                            { arabic: "ذِرَاعٌ", english: "arm" },
+                            { arabic: "يَدٌ", english: "hand" },
+                            { arabic: "إِصْبَعٌ", english: "finger" },
+                            { arabic: "صَدْرٌ", english: "chest" },
+                            { arabic: "ظَهْرٌ", english: "back" },
+                            { arabic: "بَطْنٌ", english: "belly" },
+                            { arabic: "رِجْلٌ", english: "leg" },
+                            { arabic: "قَدَمٌ", english: "foot" },
+                            { arabic: "رُكْبَةٌ", english: "knee" },
+                            { arabic: "قَلْبٌ", english: "heart" },
+                            { arabic: "دَمٌ", english: "blood" },
+                            { arabic: "عَظْمٌ", english: "bone" },
+                            { arabic: "جِلْدٌ", english: "skin" },
+                            { arabic: "شَفَةٌ", english: "lip" }
+                        ]
+                    },
+                    "Food & Drink": {
+                        icon: "🍎",
+                        words: [
+                            { arabic: "طَعَامٌ", english: "food" },
+                            { arabic: "مَاءٌ", english: "water" },
+                            { arabic: "خُبْزٌ", english: "bread" },
+                            { arabic: "أُرُزٌّ", english: "rice" },
+                            { arabic: "لَحْمٌ", english: "meat" },
+                            { arabic: "دَجَاجٌ", english: "chicken" },
+                            { arabic: "سَمَكٌ", english: "fish" },
+                            { arabic: "بَيْضٌ", english: "eggs" },
+                            { arabic: "حَلِيبٌ", english: "milk" },
+                            { arabic: "جُبْنٌ", english: "cheese" },
+                            { arabic: "زُبْدَةٌ", english: "butter" },
+                            { arabic: "سُكَّرٌ", english: "sugar" },
+                            { arabic: "مِلْحٌ", english: "salt" },
+                            { arabic: "فُلْفُلٌ", english: "pepper" },
+                            { arabic: "زَيْتٌ", english: "oil" },
+                            { arabic: "شَايٌ", english: "tea" },
+                            { arabic: "قَهْوَةٌ", english: "coffee" },
+                            { arabic: "عَصِيرٌ", english: "juice" },
+                            { arabic: "تُفَّاحٌ", english: "apple" },
+                            { arabic: "مَوْزٌ", english: "banana" },
+                            { arabic: "بُرْتُقَالٌ", english: "orange" },
+                            { arabic: "عِنَبٌ", english: "grapes" },
+                            { arabic: "طَمَاطِمٌ", english: "tomato" },
+                            { arabic: "بَصَلٌ", english: "onion" },
+                            { arabic: "ثُومٌ", english: "garlic" }
+                        ]
+                    },
+                    "Household Items": {
+                        icon: "🏠",
+                        words: [
+                            { arabic: "بَيْت", english: "house" },
+                            { arabic: "غُرْفَة", english: "room" },
+                            { arabic: "مَطْبَخ", english: "kitchen" },
+                            { arabic: "حَمَّام", english: "bathroom" },
+                            { arabic: "سَرِير", english: "bed" },
+                            { arabic: "كُرْسِي", english: "chair" },
+                            { arabic: "طَاوِلَة", english: "table" },
+                            { arabic: "بَاب", english: "door" },
+                            { arabic: "نَافِذَة", english: "window" },
+                            { arabic: "جِدَار", english: "wall" },
+                            { arabic: "سَقْف", english: "ceiling" },
+                            { arabic: "أَرْض", english: "floor" },
+                            { arabic: "مِفْتَاح", english: "key" },
+                            { arabic: "قُفْل", english: "lock" },
+                            { arabic: "مِصْبَاح", english: "lamp" },
+                            { arabic: "تِلْفَاز", english: "television" },
+                            { arabic: "هَاتِف", english: "telephone" },
+                            { arabic: "كِتَاب", english: "book" },
+                            { arabic: "قَلَم", english: "pen" },
+                            { arabic: "وَرَق", english: "paper" },
+                            { arabic: "مِرْآة", english: "mirror" },
+                            { arabic: "سَاعَة", english: "clock/watch" },
+                            { arabic: "صُورَة", english: "picture" },
+                            { arabic: "سِجَّادَة", english: "carpet" },
+                            { arabic: "وِسَادَة", english: "pillow" }
+                        ]
+                    },
+                    "Colors": {
+                        icon: "🎨",
+                        words: [
+                            { arabic: "لَوْن", english: "color" },
+                            { arabic: "أَحْمَر", english: "red" },
+                            { arabic: "أَزْرَق", english: "blue" },
+                            { arabic: "أَخْضَر", english: "green" },
+                            { arabic: "أَصْفَر", english: "yellow" },
+                            { arabic: "أَبْيَض", english: "white" },
+                            { arabic: "أَسْوَد", english: "black" },
+                            { arabic: "بُنِّي", english: "brown" },
+                            { arabic: "بُرْتُقَالِي", english: "orange" },
+                            { arabic: "بَنَفْسَجِي", english: "purple" },
+                            { arabic: "وَرْدِي", english: "pink" },
+                            { arabic: "رَمَادِي", english: "gray" },
+                            { arabic: "ذَهَبِي", english: "golden" },
+                            { arabic: "فِضِّي", english: "silver" },
+                            { arabic: "فَاتِح", english: "light" },
+                            { arabic: "غَامِق", english: "dark" },
+                            { arabic: "مُلَوَّن", english: "colorful" },
+                            { arabic: "شَفَّاف", english: "transparent" },
+                            { arabic: "لاَمِع", english: "shiny" },
+                            { arabic: "مَاط", english: "matte" }
+                        ]
+                    },
+                    "Numbers": {
+                        icon: "🔢",
+                        words: [
+                            { arabic: "رَقَم", english: "number" },
+                            { arabic: "صِفْر", english: "zero" },
+                            { arabic: "وَاحِد", english: "one" },
+                            { arabic: "اثْنَان", english: "two" },
+                            { arabic: "ثَلاَثَة", english: "three" },
+                            { arabic: "أَرْبَعَة", english: "four" },
+                            { arabic: "خَمْسَة", english: "five" },
+                            { arabic: "سِتَّة", english: "six" },
+                            { arabic: "سَبْعَة", english: "seven" },
+                            { arabic: "ثَمَانِيَة", english: "eight" },
+                            { arabic: "تِسْعَة", english: "nine" },
+                            { arabic: "عَشَرَة", english: "ten" },
+                            { arabic: "عِشْرُون", english: "twenty" },
+                            { arabic: "ثَلاَثُون", english: "thirty" },
+                            { arabic: "أَرْبَعُون", english: "forty" },
+                            { arabic: "خَمْسُون", english: "fifty" },
+                            { arabic: "سِتُّون", english: "sixty" },
+                            { arabic: "سَبْعُون", english: "seventy" },
+                            { arabic: "ثَمَانُون", english: "eighty" },
+                            { arabic: "تِسْعُون", english: "ninety" },
+                            { arabic: "مِائَة", english: "hundred" },
+                            { arabic: "أَلْف", english: "thousand" },
+                            { arabic: "مِلْيُون", english: "million" },
+                            { arabic: "أَوَّل", english: "first" },
+                            { arabic: "ثَانِي", english: "second" }
+                        ]
+                    },
+                    "Animals": {
+                        icon: "🐱",
+                        words: [
+                            { arabic: "حَيَوَان", english: "animal" },
+                            { arabic: "قِط", english: "cat" },
+                            { arabic: "كَلْب", english: "dog" },
+                            { arabic: "حِصَان", english: "horse" },
+                            { arabic: "بَقَرَة", english: "cow" },
+                            { arabic: "خَرُوف", english: "sheep" },
+                            { arabic: "مَاعِز", english: "goat" },
+                            { arabic: "أَسَد", english: "lion" },
+                            { arabic: "نَمِر", english: "tiger" },
+                            { arabic: "فِيل", english: "elephant" },
+                            { arabic: "قِرْد", english: "monkey" },
+                            { arabic: "ذِئْب", english: "wolf" },
+                            { arabic: "دُب", english: "bear" },
+                            { arabic: "أَرْنَب", english: "rabbit" },
+                            { arabic: "فَأْر", english: "mouse" },
+                            { arabic: "طَائِر", english: "bird" },
+                            { arabic: "دَجَاجَة", english: "hen" },
+                            { arabic: "دِيك", english: "rooster" },
+                            { arabic: "بَطَّة", english: "duck" },
+                            { arabic: "وَزَّة", english: "goose" },
+                            { arabic: "عُصْفُور", english: "sparrow" },
+                            { arabic: "نَسْر", english: "eagle" },
+                            { arabic: "بُومَة", english: "owl" },
+                            { arabic: "غُرَاب", english: "crow" },
+                            { arabic: "حَمَامَة", english: "dove" }
+                        ]
+                    },
+                    "Transportation": {
+                        icon: "🚗",
+                        words: [
+                            { arabic: "سَيَّارَة", english: "car" },
+                            { arabic: "حَافِلَة", english: "bus" },
+                            { arabic: "قِطَار", english: "train" },
+                            { arabic: "طَائِرَة", english: "airplane" },
+                            { arabic: "سَفِينَة", english: "ship" },
+                            { arabic: "دَرَّاجَة", english: "bicycle" },
+                            { arabic: "دَرَّاجَة نَارِيَّة", english: "motorcycle" },
+                            { arabic: "تَاكْسِي", english: "taxi" },
+                            { arabic: "شَاحِنَة", english: "truck" },
+                            { arabic: "إِسْعَاف", english: "ambulance" },
+                            { arabic: "مُطَافِئَة", english: "fire truck" },
+                            { arabic: "شُرْطَة", english: "police car" },
+                            { arabic: "قَارِب", english: "boat" },
+                            { arabic: "زَوْرَق", english: "canoe" },
+                            { arabic: "غَوَّاصَة", english: "submarine" },
+                            { arabic: "مِنْطَاد", english: "balloon" },
+                            { arabic: "طَائِرَة هِلِيكُوبْتَر", english: "helicopter" },
+                            { arabic: "صَارُوخ", english: "rocket" },
+                            { arabic: "مَحَطَّة", english: "station" },
+                            { arabic: "مَطَار", english: "airport" },
+                            { arabic: "مِينَاء", english: "port" },
+                            { arabic: "طَرِيق", english: "road" },
+                            { arabic: "شَارِع", english: "street" },
+                            { arabic: "جِسْر", english: "bridge" },
+                            { arabic: "نَفَق", english: "tunnel" }
+                        ]
+                    }
+                }
+            },
+            2: {
+                title: "Level 2 - Elementary (500 words)",
+                description: "Expanded vocabulary for school, work, and community interactions",
+                categories: {
+                    "School & Education": {
+                        icon: "🎓",
+                        words: [
+                            { arabic: "مَدْرَسَةٌ", english: "school" },
+                            { arabic: "جَامِعَةٌ", english: "university" },
+                            { arabic: "فَصْلٌ", english: "classroom" },
+                            { arabic: "مُعَلِّمٌ", english: "teacher (male)" },
+                            { arabic: "مُعَلِّمَةٌ", english: "teacher (female)" },
+                            { arabic: "طَالِبٌ", english: "student (male)" },
+                            { arabic: "طَالِبَةٌ", english: "student (female)" },
+                            { arabic: "دَفْتَرٌ", english: "notebook" },
+                            { arabic: "قَلَمُ رَصَاصٍ", english: "pencil" },
+                            { arabic: "مِمْحَاةٌ", english: "eraser" },
+                            { arabic: "مِسْطَرَةٌ", english: "ruler" },
+                            { arabic: "سَبُّورَةٌ", english: "blackboard" },
+                            { arabic: "طَبَاشِيرُ", english: "chalk" },
+                            { arabic: "امْتِحَانٌ", english: "exam" },
+                            { arabic: "وَاجِبٌ", english: "homework" },
+                            { arabic: "دَرْسٌ", english: "lesson" },
+                            { arabic: "مَادَّةٌ", english: "subject" },
+                            { arabic: "رِيَاضِيَّاتٌ", english: "mathematics" },
+                            { arabic: "عُلُومٌ", english: "science" },
+                            { arabic: "تَارِيخٌ", english: "history" },
+                            { arabic: "جُغْرَافِيَا", english: "geography" },
+                            { arabic: "لُغَةٌ", english: "language" },
+                            { arabic: "أَدَبٌ", english: "literature" },
+                            { arabic: "فَنٌّ", english: "art" },
+                            { arabic: "مُوسِيقَى", english: "music" },
+                            { arabic: "رِيَاضَةٌ", english: "sports" },
+                            { arabic: "مَكْتَبَةٌ", english: "library" },
+                            { arabic: "مُخْتَبَرٌ", english: "laboratory" },
+                            { arabic: "مَلْعَبٌ", english: "playground" },
+                            { arabic: "صَفٌّ", english: "class" }
+                        ]
+                    },
+                    "Professions": {
+                        icon: "💼",
+                        words: [
+                            { arabic: "طَبِيبٌ", english: "doctor" },
+                            { arabic: "مُهَنْدِسٌ", english: "engineer" },
+                            { arabic: "مُحَامِي", english: "lawyer" },
+                            { arabic: "مُدَرِّسٌ", english: "teacher" },
+                            { arabic: "طَبَّاخٌ", english: "cook" },
+                            { arabic: "خَبَّازٌ", english: "baker" },
+                            { arabic: "نَجَّارٌ", english: "carpenter" },
+                            { arabic: "كَهْرَبَائِيٌّ", english: "electrician" },
+                            { arabic: "سَبَّاكٌ", english: "plumber" },
+                            { arabic: "مِيكَانِيكِيٌّ", english: "mechanic" },
+                            { arabic: "سَائِقٌ", english: "driver" },
+                            { arabic: "طَيَّارٌ", english: "pilot" },
+                            { arabic: "مُمَرِّضٌ", english: "nurse (male)" },
+                            { arabic: "مُمَرِّضَةٌ", english: "nurse (female)" },
+                            { arabic: "صَيْدَلِيٌّ", english: "pharmacist" },
+                            { arabic: "مُحَاسِبٌ", english: "accountant" },
+                            { arabic: "مُبَرْمِجٌ", english: "programmer" },
+                            { arabic: "مُصَوِّرٌ", english: "photographer" },
+                            { arabic: "رَسَّامٌ", english: "painter/artist" },
+                            { arabic: "كَاتِبٌ", english: "writer" },
+                            { arabic: "صَحَفِيٌّ", english: "journalist" },
+                            { arabic: "مُتَرْجِمٌ", english: "translator" },
+                            { arabic: "حَلاَّقٌ", english: "barber" },
+                            { arabic: "خَيَّاطٌ", english: "tailor" },
+                            { arabic: "بَائِعٌ", english: "seller" }
+                        ]
+                    },
+                    "Places in City": {
+                        icon: "🏢",
+                        words: [
+                            { arabic: "مَدِينَةٌ", english: "city" },
+                            { arabic: "قَرْيَةٌ", english: "village" },
+                            { arabic: "شَارِعٌ", english: "street" },
+                            { arabic: "مَيْدَانٌ", english: "square" },
+                            { arabic: "مُسْتَشْفَى", english: "hospital" },
+                            { arabic: "صَيْدَلِيَّةٌ", english: "pharmacy" },
+                            { arabic: "مَصْرِفٌ", english: "bank" },
+                            { arabic: "مَكْتَبُ بَرِيدٍ", english: "post office" },
+                            { arabic: "سُوقٌ", english: "market" },
+                            { arabic: "مَتْجَرٌ", english: "store" },
+                            { arabic: "مَطْعَمٌ", english: "restaurant" },
+                            { arabic: "مَقْهَى", english: "cafe" },
+                            { arabic: "فُنْدُقٌ", english: "hotel" },
+                            { arabic: "مَحَطَّةُ قِطَارٍ", english: "train station" },
+                            { arabic: "مَحَطَّةُ حَافِلاَتٍ", english: "bus station" },
+                            { arabic: "مَطَارٌ", english: "airport" },
+                            { arabic: "مَسْجِدٌ", english: "mosque" },
+                            { arabic: "كَنِيسَةٌ", english: "church" },
+                            { arabic: "مُتْحَفٌ", english: "museum" },
+                            { arabic: "مَسْرَحٌ", english: "theater" },
+                            { arabic: "سِينَمَا", english: "cinema" },
+                            { arabic: "حَدِيقَةٌ", english: "garden/park" },
+                            { arabic: "شَاطِئٌ", english: "beach" },
+                            { arabic: "جَبَلٌ", english: "mountain" },
+                            { arabic: "نَهْرٌ", english: "river" }
+                        ]
+                    },
+                    "Weather & Seasons": {
+                        icon: "🌤️",
+                        words: [
+                            { arabic: "طَقْسٌ", english: "weather" },
+                            { arabic: "مَطَرٌ", english: "rain" },
+                            { arabic: "ثَلْجٌ", english: "snow" },
+                            { arabic: "رِيحٌ", english: "wind" },
+                            { arabic: "عَاصِفَةٌ", english: "storm" },
+                            { arabic: "رَعْدٌ", english: "thunder" },
+                            { arabic: "بَرْقٌ", english: "lightning" },
+                            { arabic: "ضَبَابٌ", english: "fog" },
+                            { arabic: "غَيْمٌ", english: "cloud" },
+                            { arabic: "شَمْسٌ", english: "sun" },
+                            { arabic: "قَمَرٌ", english: "moon" },
+                            { arabic: "نُجُومٌ", english: "stars" },
+                            { arabic: "سَمَاءٌ", english: "sky" },
+                            { arabic: "حَارٌّ", english: "hot" },
+                            { arabic: "بَارِدٌ", english: "cold" },
+                            { arabic: "دَافِئٌ", english: "warm" },
+                            { arabic: "بَرْدٌ", english: "cold (noun)" },
+                            { arabic: "حَرٌّ", english: "heat" },
+                            { arabic: "رُطُوبَةٌ", english: "humidity" },
+                            { arabic: "جَفَافٌ", english: "dryness" },
+                            { arabic: "مُشْمِسٌ", english: "sunny" },
+                            { arabic: "غَائِمٌ", english: "cloudy" },
+                            { arabic: "مُمْطِرٌ", english: "rainy" },
+                            { arabic: "عَاصِفٌ", english: "stormy" },
+                            { arabic: "جَمِيلٌ", english: "beautiful (weather)" }
+                        ]
+                    },
+                    "Fruits & Vegetables": {
+                        icon: "🥕",
+                        words: [
+                            { arabic: "فَاكِهَةٌ", english: "fruit" },
+                            { arabic: "خُضَارٌ", english: "vegetables" },
+                            { arabic: "لَيْمُونٌ", english: "lemon" },
+                            { arabic: "تِينٌ", english: "fig" },
+                            { arabic: "رُمَّانٌ", english: "pomegranate" },
+                            { arabic: "مِشْمِشٌ", english: "apricot" },
+                            { arabic: "خَوْخٌ", english: "peach" },
+                            { arabic: "كِرَزٌ", english: "cherry" },
+                            { arabic: "فَرَاوِلَةٌ", english: "strawberry" },
+                            { arabic: "أَنَانَاسٌ", english: "pineapple" },
+                            { arabic: "مَانْجُو", english: "mango" },
+                            { arabic: "بَطِّيخٌ", english: "watermelon" },
+                            { arabic: "شَمَّامٌ", english: "cantaloupe" },
+                            { arabic: "جَزَرٌ", english: "carrots" },
+                            { arabic: "بَطَاطِسُ", english: "potatoes" },
+                            { arabic: "بَطَاطَا حُلْوَةٌ", english: "sweet potato" },
+                            { arabic: "كُرُنْبٌ", english: "cabbage" },
+                            { arabic: "خَسٌّ", english: "lettuce" },
+                            { arabic: "سَبَانِخٌ", english: "spinach" },
+                            { arabic: "بَاذِنْجَانٌ", english: "eggplant" },
+                            { arabic: "كُوسَا", english: "zucchini" },
+                            { arabic: "فِلْفِلٌ", english: "bell pepper" },
+                            { arabic: "خِيَارٌ", english: "cucumber" },
+                            { arabic: "فُولٌ", english: "beans" },
+                            { arabic: "بَازِلاَّءُ", english: "peas" }
+                        ]
+                    },
+                    "Technology": {
+                        icon: "💻",
+                        words: [
+                            { arabic: "حَاسُوبٌ", english: "computer" },
+                            { arabic: "هَاتِفٌ ذَكِيٌّ", english: "smartphone" },
+                            { arabic: "إِنْتَرْنِتْ", english: "internet" },
+                            { arabic: "بَرِيدٌ إِلِكْتُرُونِيٌّ", english: "email" },
+                            { arabic: "مَوْقِعٌ", english: "website" },
+                            { arabic: "تَطْبِيقٌ", english: "application/app" },
+                            { arabic: "بَرْنَامَجٌ", english: "program" },
+                            { arabic: "لَوْحَةُ مَفَاتِيحَ", english: "keyboard" },
+                            { arabic: "فَأْرَةٌ", english: "mouse (computer)" },
+                            { arabic: "شَاشَةٌ", english: "screen" },
+                            { arabic: "طَابِعَةٌ", english: "printer" },
+                            { arabic: "كَامِيرَا", english: "camera" },
+                            { arabic: "مِكْرُوفُونٌ", english: "microphone" },
+                            { arabic: "سَمَّاعَةٌ", english: "headphone" },
+                            { arabic: "مُكَبِّرُ صَوْتٍ", english: "speaker" },
+                            { arabic: "بَطَّارِيَّةٌ", english: "battery" },
+                            { arabic: "شَاحِنٌ", english: "charger" },
+                            { arabic: "قُرْصٌ مُدْمَجٌ", english: "CD" },
+                            { arabic: "ذَاكِرَةٌ", english: "memory" },
+                            { arabic: "مِلَفٌّ", english: "file" },
+                            { arabic: "مَجَلَّدٌ", english: "folder" },
+                            { arabic: "رَابِطٌ", english: "link" },
+                            { arabic: "تَحْمِيلٌ", english: "download" },
+                            { arabic: "رَفْعٌ", english: "upload" },
+                            { arabic: "أَمَانٌ", english: "security" }
+                        ]
+                    }
+                }
+            },
+            3: {
+                title: "Level 3 - Intermediate (500 words)",
+                description: "Advanced vocabulary for professional and academic contexts",
+                categories: {
+                    "Abstract Concepts": {
+                        icon: "💭",
+                        words: [
+                            { arabic: "فِكْرَةٌ", english: "idea" },
+                            { arabic: "رَأْيٌ", english: "opinion" },
+                            { arabic: "مَعْنَى", english: "meaning" },
+                            { arabic: "مَفْهُومٌ", english: "concept" },
+                            { arabic: "حَقِيقَةٌ", english: "truth/fact" },
+                            { arabic: "خَيَالٌ", english: "imagination" },
+                            { arabic: "حُلْمٌ", english: "dream" },
+                            { arabic: "أَمَلٌ", english: "hope" },
+                            { arabic: "خَوْفٌ", english: "fear" },
+                            { arabic: "شَجَاعَةٌ", english: "courage" },
+                            { arabic: "صَبْرٌ", english: "patience" },
+                            { arabic: "عَدَالَةٌ", english: "justice" },
+                            { arabic: "حُرِّيَّةٌ", english: "freedom" },
+                            { arabic: "سَلاَمٌ", english: "peace" },
+                            { arabic: "حَرْبٌ", english: "war" },
+                            { arabic: "ثَقَافَةٌ", english: "culture" },
+                            { arabic: "حَضَارَةٌ", english: "civilization" },
+                            { arabic: "تَقْلِيدٌ", english: "tradition" },
+                            { arabic: "عَادَةٌ", english: "habit/custom" },
+                            { arabic: "تَجْرِبَةٌ", english: "experience" },
+                            { arabic: "ذَكَاءٌ", english: "intelligence" },
+                            { arabic: "حِكْمَةٌ", english: "wisdom" },
+                            { arabic: "مَعْرِفَةٌ", english: "knowledge" },
+                            { arabic: "تَعْلِيمٌ", english: "education" },
+                            { arabic: "فَهْمٌ", english: "understanding" }
+                        ]
+                    },
+                    "Emotions & Feelings": {
+                        icon: "😊",
+                        words: [
+                            { arabic: "مَشَاعِرُ", english: "feelings" },
+                            { arabic: "عَاطِفَةٌ", english: "emotion" },
+                            { arabic: "فَرَحٌ", english: "joy" },
+                            { arabic: "سَعَادَةٌ", english: "happiness" },
+                            { arabic: "حُزْنٌ", english: "sadness" },
+                            { arabic: "غَضَبٌ", english: "anger" },
+                            { arabic: "حُبٌّ", english: "love" },
+                            { arabic: "كُرْهٌ", english: "hate" },
+                            { arabic: "غَيْرَةٌ", english: "jealousy" },
+                            { arabic: "خَجَلٌ", english: "shyness" },
+                            { arabic: "فَخْرٌ", english: "pride" },
+                            { arabic: "تَوَاضُعٌ", english: "humility" },
+                            { arabic: "ثِقَةٌ", english: "confidence" },
+                            { arabic: "شَكٌّ", english: "doubt" },
+                            { arabic: "أَمَانٌ", english: "security" },
+                            { arabic: "قَلَقٌ", english: "anxiety" },
+                            { arabic: "اكْتِئَابٌ", english: "depression" },
+                            { arabic: "إِثَارَةٌ", english: "excitement" },
+                            { arabic: "مَلَلٌ", english: "boredom" },
+                            { arabic: "رَاحَةٌ", english: "comfort" },
+                            { arabic: "تَعَبٌ", english: "fatigue" },
+                            { arabic: "اسْتِرْخَاءٌ", english: "relaxation" },
+                            { arabic: "تَوَتُّرٌ", english: "tension" },
+                            { arabic: "سُرُورٌ", english: "pleasure" },
+                            { arabic: "أَلَمٌ", english: "pain" }
+                        ]
+                    },
+                    "Business & Economy": {
+                        icon: "💰",
+                        words: [
+                            { arabic: "أَعْمَالٌ", english: "business" },
+                            { arabic: "اقْتِصَادٌ", english: "economy" },
+                            { arabic: "شَرِكَةٌ", english: "company" },
+                            { arabic: "مُؤَسَّسَةٌ", english: "institution" },
+                            { arabic: "مَكْتَبٌ", english: "office" },
+                            { arabic: "مُوَظَّفٌ", english: "employee" },
+                            { arabic: "رَئِيسٌ", english: "boss/president" },
+                            { arabic: "مُدِيرٌ", english: "manager" },
+                            { arabic: "عَمِيلٌ", english: "client" },
+                            { arabic: "زَبُونٌ", english: "customer" },
+                            { arabic: "بَيْعٌ", english: "sale" },
+                            { arabic: "شِرَاءٌ", english: "purchase" },
+                            { arabic: "رِبْحٌ", english: "profit" },
+                            { arabic: "خَسَارَةٌ", english: "loss" },
+                            { arabic: "رَاتِبٌ", english: "salary" },
+                            { arabic: "أُجْرَةٌ", english: "wage" },
+                            { arabic: "ضَرِيبَةٌ", english: "tax" },
+                            { arabic: "فَاتُورَةٌ", english: "invoice/bill" },
+                            { arabic: "حِسَابٌ", english: "account" },
+                            { arabic: "قَرْضٌ", english: "loan" },
+                            { arabic: "دَيْنٌ", english: "debt" },
+                            { arabic: "اسْتِثْمَارٌ", english: "investment" },
+                            { arabic: "سُوقٌ مَالِيَّةٌ", english: "stock market" },
+                            { arabic: "عُمْلَةٌ", english: "currency" },
+                            { arabic: "تَأْمِينٌ", english: "insurance" }
+                        ]
+                    },
+                    "Health & Medicine": {
+                        icon: "🏥",
+                        words: [
+                            { arabic: "صِحَّةٌ", english: "health" },
+                            { arabic: "مَرَضٌ", english: "illness" },
+                            { arabic: "دَوَاءٌ", english: "medicine" },
+                            { arabic: "عِلاَجٌ", english: "treatment" },
+                            { arabic: "شِفَاءٌ", english: "healing" },
+                            { arabic: "أَعْرَاضٌ", english: "symptoms" },
+                            { arabic: "تَشْخِيصٌ", english: "diagnosis" },
+                            { arabic: "جِرَاحَةٌ", english: "surgery" },
+                            { arabic: "حُقْنَةٌ", english: "injection" },
+                            { arabic: "أَشِعَّةٌ", english: "X-ray" },
+                            { arabic: "فَحْصٌ", english: "examination" },
+                            { arabic: "تَحْلِيلٌ", english: "analysis/test" },
+                            { arabic: "حُمَّى", english: "fever" },
+                            { arabic: "صُدَاعٌ", english: "headache" },
+                            { arabic: "سُعَالٌ", english: "cough" },
+                            { arabic: "زُكَامٌ", english: "cold" },
+                            { arabic: "إِنْفْلُونْزَا", english: "flu" },
+                            { arabic: "ضَغْطُ دَمٍ", english: "blood pressure" },
+                            { arabic: "سُكَّرِيٌّ", english: "diabetes" },
+                            { arabic: "قَلْبٌ", english: "heart" },
+                            { arabic: "رِئَةٌ", english: "lung" },
+                            { arabic: "كَبِدٌ", english: "liver" },
+                            { arabic: "كُلْيَةٌ", english: "kidney" },
+                            { arabic: "مَعِدَةٌ", english: "stomach" },
+                            { arabic: "أَمْعَاءٌ", english: "intestines" }
+                        ]
+                    },
+                    "Government & Politics": {
+                        icon: "🏛️",
+                        words: [
+                            { arabic: "حُكُومَةٌ", english: "government" },
+                            { arabic: "سِيَاسَةٌ", english: "politics" },
+                            { arabic: "رَئِيسٌ", english: "president" },
+                            { arabic: "وَزِيرٌ", english: "minister" },
+                            { arabic: "بَرْلَمَانٌ", english: "parliament" },
+                            { arabic: "انْتِخَابَاتٌ", english: "elections" },
+                            { arabic: "مُرَشَّحٌ", english: "candidate" },
+                            { arabic: "نَاخِبٌ", english: "voter" },
+                            { arabic: "حِزْبٌ", english: "party" },
+                            { arabic: "دُسْتُورٌ", english: "constitution" },
+                            { arabic: "قَانُونٌ", english: "law" },
+                            { arabic: "عَدَالَةٌ", english: "justice" },
+                            { arabic: "مَحْكَمَةٌ", english: "court" },
+                            { arabic: "قَاضٍ", english: "judge" },
+                            { arabic: "شُرْطَةٌ", english: "police" },
+                            { arabic: "جَيْشٌ", english: "army" },
+                            { arabic: "دِفَاعٌ", english: "defense" },
+                            { arabic: "دِبْلُومَاسِيَّةٌ", english: "diplomacy" },
+                            { arabic: "سَفَارَةٌ", english: "embassy" },
+                            { arabic: "مُعَاهَدَةٌ", english: "treaty" },
+                            { arabic: "اتِّفَاقِيَّةٌ", english: "agreement" },
+                            { arabic: "صُلْحٌ", english: "peace" },
+                            { arabic: "صِرَاعٌ", english: "conflict" },
+                            { arabic: "ثَوْرَةٌ", english: "revolution" },
+                            { arabic: "إِصْلاَحٌ", english: "reform" }
+                        ]
+                    },
+                    "Arts & Culture": {
+                        icon: "🎨",
+                        words: [
+                            { arabic: "فَنٌّ", english: "art" },
+                            { arabic: "ثَقَافَةٌ", english: "culture" },
+                            { arabic: "رَسْمٌ", english: "drawing/painting" },
+                            { arabic: "نَحْتٌ", english: "sculpture" },
+                            { arabic: "تَصْوِيرٌ", english: "photography" },
+                            { arabic: "مُوسِيقَى", english: "music" },
+                            { arabic: "أُغْنِيَةٌ", english: "song" },
+                            { arabic: "آلَةٌ مُوسِيقِيَّةٌ", english: "musical instrument" },
+                            { arabic: "رَقْصٌ", english: "dance" },
+                            { arabic: "مَسْرَحٌ", english: "theater" },
+                            { arabic: "مَسْرَحِيَّةٌ", english: "play" },
+                            { arabic: "فِيلْمٌ", english: "movie" },
+                            { arabic: "مُمَثِّلٌ", english: "actor" },
+                            { arabic: "مُخْرِجٌ", english: "director" },
+                            { arabic: "شِعْرٌ", english: "poetry" },
+                            { arabic: "قَصِيدَةٌ", english: "poem" },
+                            { arabic: "رِوَايَةٌ", english: "novel" },
+                            { arabic: "قِصَّةٌ", english: "story" },
+                            { arabic: "أَدَبٌ", english: "literature" },
+                            { arabic: "كَاتِبٌ", english: "writer" },
+                            { arabic: "شَاعِرٌ", english: "poet" },
+                            { arabic: "نَقْدٌ", english: "criticism" },
+                            { arabic: "مَعْرِضٌ", english: "exhibition" },
+                            { arabic: "مَتْحَفٌ", english: "museum" },
+                            { arabic: "تُرَاثٌ", english: "heritage" }
+                        ]
+                    }
+                }
+            },
+            4: {
+                title: "Level 4 - Advanced (500 words)",
+                description: "Specialized vocabulary for advanced learners and specific fields",
+                categories: {
+                    "Science & Technology": {
+                        icon: "🔬",
+                        words: [
+                            { arabic: "عِلْمٌ", english: "science" },
+                            { arabic: "تِكْنُولُوجْيَا", english: "technology" },
+                            { arabic: "كِيمْيَاءُ", english: "chemistry" },
+                            { arabic: "فِيزْيَاءُ", english: "physics" },
+                            { arabic: "أَحْيَاءٌ", english: "biology" },
+                            { arabic: "رِيَاضِيَّاتٌ", english: "mathematics" },
+                            { arabic: "هَنْدَسَةٌ", english: "engineering" },
+                            { arabic: "طِبٌّ", english: "medicine" },
+                            { arabic: "صَيْدَلَةٌ", english: "pharmacy" },
+                            { arabic: "جِينَاتٌ", english: "genetics" },
+                            { arabic: "ذَرَّةٌ", english: "atom" },
+                            { arabic: "جُزَيْءٌ", english: "molecule" },
+                            { arabic: "تَفَاعُلٌ", english: "reaction" },
+                            { arabic: "تَجْرِبَةٌ", english: "experiment" },
+                            { arabic: "نَظَرِيَّةٌ", english: "theory" },
+                            { arabic: "اكْتِشَافٌ", english: "discovery" },
+                            { arabic: "اخْتِرَاعٌ", english: "invention" },
+                            { arabic: "بَحْثٌ", english: "research" },
+                            { arabic: "تَطْوِيرٌ", english: "development" },
+                            { arabic: "تَقَدُّمٌ", english: "progress" },
+                            { arabic: "ابْتِكَارٌ", english: "innovation" },
+                            { arabic: "ذَكَاءٌ اصْطِنَاعِيٌّ", english: "artificial intelligence" },
+                            { arabic: "رُوبُوتٌ", english: "robot" },
+                            { arabic: "فَضَاءٌ", english: "space" },
+                            { arabic: "صَارُوخٌ", english: "rocket" }
+                        ]
+                    },
+                    "Philosophy & Religion": {
+                        icon: "📿",
+                        words: [
+                            { arabic: "فَلْسَفَةٌ", english: "philosophy" },
+                            { arabic: "دِينٌ", english: "religion" },
+                            { arabic: "إِيمَانٌ", english: "faith" },
+                            { arabic: "عَقِيدَةٌ", english: "belief" },
+                            { arabic: "رُوحٌ", english: "spirit/soul" },
+                            { arabic: "جَنَّةٌ", english: "paradise" },
+                            { arabic: "جَهَنَّمُ", english: "hell" },
+                            { arabic: "مَلاَئِكَةٌ", english: "angels" },
+                            { arabic: "نَبِيٌّ", english: "prophet" },
+                            { arabic: "رَسُولٌ", english: "messenger" },
+                            { arabic: "وَحْيٌ", english: "revelation" },
+                            { arabic: "صَلاَةٌ", english: "prayer" },
+                            { arabic: "صِيَامٌ", english: "fasting" },
+                            { arabic: "زَكَاةٌ", english: "charity" },
+                            { arabic: "حَجٌّ", english: "pilgrimage" },
+                            { arabic: "جِهَادٌ", english: "struggle" },
+                            { arabic: "تَوْبَةٌ", english: "repentance" },
+                            { arabic: "مَغْفِرَةٌ", english: "forgiveness" },
+                            { arabic: "رَحْمَةٌ", english: "mercy" },
+                            { arabic: "عِبَادَةٌ", english: "worship" },
+                            { arabic: "دُعَاءٌ", english: "supplication" },
+                            { arabic: "ذِكْرٌ", english: "remembrance" },
+                            { arabic: "تَأَمُّلٌ", english: "meditation" },
+                            { arabic: "حِكْمَةٌ", english: "wisdom" },
+                            { arabic: "أَخْلاَقٌ", english: "ethics/morals" }
+                        ]
+                    },
+                    "Astronomy & Universe": {
+                        icon: "🌌",
+                        words: [
+                            { arabic: "فَلَكٌ", english: "astronomy" },
+                            { arabic: "كَوْنٌ", english: "universe" },
+                            { arabic: "مَجَرَّةٌ", english: "galaxy" },
+                            { arabic: "كَوْكَبٌ", english: "planet" },
+                            { arabic: "نَجْمٌ", english: "star" },
+                            { arabic: "شَمْسٌ", english: "sun" },
+                            { arabic: "قَمَرٌ", english: "moon" },
+                            { arabic: "أَرْضٌ", english: "earth" },
+                            { arabic: "مَرِّيخٌ", english: "mars" },
+                            { arabic: "زُهَرَةُ", english: "venus" },
+                            { arabic: "عُطَارِدُ", english: "mercury" },
+                            { arabic: "مُشْتَرِي", english: "jupiter" },
+                            { arabic: "زُحَلُ", english: "saturn" },
+                            { arabic: "شِهَابٌ", english: "meteor" },
+                            { arabic: "مُذَنَّبٌ", english: "comet" },
+                            { arabic: "كُسُوفٌ", english: "eclipse" },
+                            { arabic: "خُسُوفٌ", english: "lunar eclipse" },
+                            { arabic: "مَدَارٌ", english: "orbit" },
+                            { arabic: "جَاذِبِيَّةٌ", english: "gravity" },
+                            { arabic: "ضَوْءٌ", english: "light" },
+                            { arabic: "طَيْفٌ", english: "spectrum" },
+                            { arabic: "إِشْعَاعٌ", english: "radiation" },
+                            { arabic: "تِلِسْكُوبٌ", english: "telescope" },
+                            { arabic: "رَائِدُ فَضَاءٍ", english: "astronaut" },
+                            { arabic: "مَرْكَبَةٌ فَضَائِيَّةٌ", english: "spacecraft" }
+                        ]
+                    },
+                    "Legal & Law": {
+                        icon: "⚖️",
+                        words: [
+                            { arabic: "قَانُونٌ", english: "law" },
+                            { arabic: "عَدَالَةٌ", english: "justice" },
+                            { arabic: "مَحْكَمَةٌ", english: "court" },
+                            { arabic: "قَاضٍ", english: "judge" },
+                            { arabic: "مُحَامٍ", english: "lawyer" },
+                            { arabic: "مُدَّعٍ", english: "prosecutor" },
+                            { arabic: "مُتَّهَمٌ", english: "defendant" },
+                            { arabic: "شَاهِدٌ", english: "witness" },
+                            { arabic: "دَلِيلٌ", english: "evidence" },
+                            { arabic: "بُرْهَانٌ", english: "proof" },
+                            { arabic: "حُكْمٌ", english: "judgment" },
+                            { arabic: "عُقُوبَةٌ", english: "punishment" },
+                            { arabic: "غَرَامَةٌ", english: "fine" },
+                            { arabic: "سِجْنٌ", english: "prison" },
+                            { arabic: "إِعْدَامٌ", english: "execution" },
+                            { arabic: "بَرَاءَةٌ", english: "innocence" },
+                            { arabic: "ذَنْبٌ", english: "guilt" },
+                            { arabic: "جَرِيمَةٌ", english: "crime" },
+                            { arabic: "سَرِقَةٌ", english: "theft" },
+                            { arabic: "قَتْلٌ", english: "murder" },
+                            { arabic: "عَقْدٌ", english: "contract" },
+                            { arabic: "اتِّفَاقٌ", english: "agreement" },
+                            { arabic: "وَصِيَّةٌ", english: "will/testament" },
+                            { arabic: "مِيرَاثٌ", english: "inheritance" },
+                            { arabic: "حُقُوقٌ", english: "rights" }
+                        ]
+                    },
+                    "Literature & Poetry": {
+                        icon: "📜",
+                        words: [
+                            { arabic: "أَدَبٌ", english: "literature" },
+                            { arabic: "شِعْرٌ", english: "poetry" },
+                            { arabic: "قَصِيدَةٌ", english: "poem" },
+                            { arabic: "بَيْتٌ", english: "verse" },
+                            { arabic: "شَطْرٌ", english: "hemistich" },
+                            { arabic: "قَافِيَةٌ", english: "rhyme" },
+                            { arabic: "بَحْرٌ", english: "meter" },
+                            { arabic: "رِوَايَةٌ", english: "novel" },
+                            { arabic: "قِصَّةٌ", english: "story" },
+                            { arabic: "حِكَايَةٌ", english: "tale" },
+                            { arabic: "أُسْطُورَةٌ", english: "legend/myth" },
+                            { arabic: "مَلْحَمَةٌ", english: "epic" },
+                            { arabic: "مَسْرَحِيَّةٌ", english: "play" },
+                            { arabic: "نَقْدٌ", english: "criticism" },
+                            { arabic: "بَلاَغَةٌ", english: "rhetoric" },
+                            { arabic: "اسْتِعَارَةٌ", english: "metaphor" },
+                            { arabic: "تَشْبِيهٌ", english: "simile" },
+                            { arabic: "رَمْزٌ", english: "symbol" },
+                            { arabic: "صُورَةٌ", english: "imagery" },
+                            { arabic: "إِيقَاعٌ", english: "rhythm" },
+                            { arabic: "نَصٌّ", english: "text" },
+                            { arabic: "مَخْطُوطَةٌ", english: "manuscript" },
+                            { arabic: "دِيوَانٌ", english: "collection of poems" },
+                            { arabic: "مُؤَلِّفٌ", english: "author" },
+                            { arabic: "نَاشِرٌ", english: "publisher" }
+                        ]
+                    },
+                    "Geography & Environment": {
+                        icon: "🌍",
+                        words: [
+                            { arabic: "جُغْرَافِيَا", english: "geography" },
+                            { arabic: "بِيئَةٌ", english: "environment" },
+                            { arabic: "قَارَّةٌ", english: "continent" },
+                            { arabic: "مُحِيطٌ", english: "ocean" },
+                            { arabic: "بَحْرٌ", english: "sea" },
+                            { arabic: "جَزِيرَةٌ", english: "island" },
+                            { arabic: "شِبْهُ جَزِيرَةٍ", english: "peninsula" },
+                            { arabic: "صَحْرَاءُ", english: "desert" },
+                            { arabic: "غَابَةٌ", english: "forest" },
+                            { arabic: "وَادٍ", english: "valley" },
+                            { arabic: "هَضْبَةٌ", english: "plateau" },
+                            { arabic: "سَهْلٌ", english: "plain" },
+                            { arabic: "دَلْتَا", english: "delta" },
+                            { arabic: "خَلِيجٌ", english: "gulf" },
+                            { arabic: "مَضِيقٌ", english: "strait" },
+                            { arabic: "شَلاَّلٌ", english: "waterfall" },
+                            { arabic: "بُحَيْرَةٌ", english: "lake" },
+                            { arabic: "بِرْكَةٌ", english: "pond" },
+                            { arabic: "كَهْفٌ", english: "cave" },
+                            { arabic: "مَعْدِنٌ", english: "mineral" },
+                            { arabic: "بِتْرُولٌ", english: "petroleum" },
+                            { arabic: "فَحْمٌ", english: "coal" },
+                            { arabic: "ذَهَبٌ", english: "gold" },
+                            { arabic: "فِضَّةٌ", english: "silver" },
+                            { arabic: "يُورَانْيُومٌ", english: "uranium" }
+                        ]
+                    }
+                }
+            }
+        };
+
+        let currentLevel = 1;
+        
+        function initializeApp() {
+            setupEventListeners();
+            loadLevel(1);
+        }
+        
+        function setupEventListeners() {
+            // Level buttons
+            document.querySelectorAll('.level-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const level = parseInt(e.target.dataset.level);
+                    loadLevel(level);
+                });
+            });
+            
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', filterWords);
+            document.getElementById('categoryFilter').addEventListener('change', filterWords);
+        }
+        
+        function loadLevel(level) {
+            currentLevel = level;
+            
+            // Update active button
+            document.querySelectorAll('.level-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-level="${level}"]`).classList.add('active');
+            
+            // Update level info
+            const levelData = vocabularyData[level];
+            document.getElementById('levelInfo').innerHTML = `
+                <div class="level-title">${levelData.title}</div>
+                <div class="level-description">${levelData.description}</div>
+            `;
+            
+            // Render vocabulary
+            renderVocabulary(levelData);
+            
+            // Update stats
+            updateStats();
+            
+            // Populate category filter
+            populateCategoryFilter();
+        }
+        
+        function renderVocabulary(levelData) {
+            const container = document.getElementById('vocabularyContent');
+            container.innerHTML = '';
+            
+            let wordCounter = 1;
+            
+            Object.keys(levelData.categories).forEach(categoryName => {
+                const category = levelData.categories[categoryName];
+                
+                const categorySection = document.createElement('div');
+                categorySection.className = 'category-section';
+                categorySection.dataset.category = categoryName;
+                
+                // Create header
+                const header = document.createElement('div');
+                header.className = 'category-header';
+                header.innerHTML = `
+                    <span class="category-icon">${category.icon}</span>
+                    <span>${categoryName} (${category.words.length} words)</span>
+                `;
+                
+                // Create table
+                const table = document.createElement('table');
+                table.className = 'vocabulary-table';
+                
+                // Create table header
+                const thead = document.createElement('thead');
+                thead.innerHTML = `
+                    <tr>
+                        <th style="width: 60px;">#</th>
+                        <th style="width: 40%;">Arabic Word</th>
+                        <th style="width: 40%;">English Translation</th>
+                    </tr>
+                `;
+                
+                // Create table body
+                const tbody = document.createElement('tbody');
+                
+                category.words.forEach(word => {
+                    const row = document.createElement('tr');
+                    row.className = 'word-row';
+                    row.dataset.arabic = word.arabic;
+                    row.dataset.english = word.english.toLowerCase();
+                    
+                    // Number cell
+                    const numberCell = document.createElement('td');
+                    numberCell.className = 'word-number';
+                    numberCell.textContent = wordCounter++;
+                    
+                    // Arabic cell
+                    const arabicCell = document.createElement('td');
+                    arabicCell.className = 'arabic-word';
+                    arabicCell.innerHTML = formatArabicWithTashkeel(word.arabic);
+                    
+                    // English cell
+                    const englishCell = document.createElement('td');
+                    englishCell.className = 'english-word';
+                    englishCell.textContent = word.english;
+                    
+                    row.appendChild(numberCell);
+                    row.appendChild(arabicCell);
+                    row.appendChild(englishCell);
+                    tbody.appendChild(row);
+                });
+                
+                table.appendChild(thead);
+                table.appendChild(tbody);
+                categorySection.appendChild(header);
+                categorySection.appendChild(table);
+                container.appendChild(categorySection);
+            });
+        }
+        
+        function formatArabicWithTashkeel(arabic) {
+            // More comprehensive tashkeel regex including all Arabic diacritical marks
+            const tashkeelRegex = /[\u064B-\u065F\u0670\u0640\u06D6-\u06ED]/g;
+            return arabic.replace(tashkeelRegex, match => {
+                return `<span style="color: red; font-size: 1.2em; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${match}</span>`;
+            });
+        }
+        
+        function filterWords() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const selectedCategory = document.getElementById('categoryFilter').value;
+            
+            // Show/hide category sections
+            document.querySelectorAll('.category-section').forEach(section => {
+                const categoryName = section.dataset.category;
+                const shouldShowCategory = !selectedCategory || selectedCategory === categoryName;
+                
+                if (shouldShowCategory) {
+                    section.style.display = 'block';
+                    
+                    // Filter words within the category
+                    const rows = section.querySelectorAll('.word-row');
+                    let visibleWordsInCategory = 0;
+                    
+                    rows.forEach(row => {
+                        const arabic = row.dataset.arabic.toLowerCase();
+                        const english = row.dataset.english.toLowerCase();
+                        const matchesSearch = !searchTerm || 
+                            arabic.includes(searchTerm) || 
+                            english.includes(searchTerm);
+                        
+                        if (matchesSearch) {
+                            row.style.display = 'table-row';
+                            visibleWordsInCategory++;
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                    
+                    // Hide category if no words match
+                    if (visibleWordsInCategory === 0 && searchTerm) {
+                        section.style.display = 'none';
+                    }
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+            
+            updateStats();
+            checkNoResults();
+        }
+        
+        function populateCategoryFilter() {
+            const filter = document.getElementById('categoryFilter');
+            const levelData = vocabularyData[currentLevel];
+            
+            filter.innerHTML = '<option value="">All Categories</option>';
+            
+            Object.keys(levelData.categories).forEach(categoryName => {
+                const option = document.createElement('option');
+                option.value = categoryName;
+                option.textContent = categoryName;
+                filter.appendChild(option);
+            });
+        }
+        
+        function updateStats() {
+            const levelData = vocabularyData[currentLevel];
+            const totalWords = Object.values(levelData.categories).reduce((sum, cat) => sum + cat.words.length, 0);
+            const visibleRows = document.querySelectorAll('.word-row');
+            const visibleWords = Array.from(visibleRows).filter(row => 
+                row.style.display !== 'none'
+            ).length;
+            const categoryCount = Object.keys(levelData.categories).length;
+            
+            document.getElementById('totalWords').textContent = totalWords;
+            document.getElementById('visibleWords').textContent = visibleWords;
+            document.getElementById('categoryCount').textContent = categoryCount;
+        }
+        
+        function checkNoResults() {
+            const visibleSections = Array.from(document.querySelectorAll('.category-section')).filter(
+                section => section.style.display !== 'none'
+            );
+            const noResults = document.getElementById('noResults');
+            
+            if (visibleSections.length === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        }
+        
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>
