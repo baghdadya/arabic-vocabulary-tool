@@ -13,7 +13,7 @@ Created as Sadaqah Jariyah (ongoing charity) for Arabic learners worldwide
 🆓 Completely free - no ads, no tracking, no registration required
 🌐 Works offline once loaded
 🚀 Try It Now
-Live Demo: [Insert your GitLab Pages URL here]
+Live site: [[Insert your GitLab Pages URL here]](https://baghdadya.github.io/arabic-vocabulary-tool/)
 
 Simply open the link above in any web browser on desktop or mobile!
 
@@ -48,11 +48,7 @@ Download for Offline Use
 Download the index.html file from this repository
 Open it in any web browser
 Works completely offline
-For Developers
-bash
-git clone [your-gitlab-repo-url]
-cd [repository-name]
-open index.html
+
 🤝 Contributing
 This is a community educational resource! Ways to contribute:
 
